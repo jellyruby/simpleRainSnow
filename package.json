@@ -1,0 +1,24 @@
+{
+  "name": "simplerainsnow",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jellyruby/smiplerainsnow.git"
+  },
+  "author": "jonghwa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jellyruby/smiplerainsnow/issues"
+  },
+  "homepage": "https://github.com/jellyruby/smiplerainsnow#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2"
+  }
+}

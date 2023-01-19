@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <title>
+            간단한 비랑 눈
+        </title>
+        <link rel="stylesheet" type="text/css" href="/public/rainsnow.css" >
+    </head>    
+<body>
+    <canvas id="weather"></canvas>
+<button id="toggle-weather">Toggle Weather</button>
+</body>
+<script>
+ const canvas = document.getElementById("weather");
+const ctx = canvas.getContext("2d");
+let isRain = true;
+let droplets = [];
+let snowflakes = [];
+
+// Set canvas size to be the size of the window
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Create a Droplet class
+class Droplet {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.length = Math.random() * 8 + 5;
+    this.speed = Math.random() + 0.5;
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x, this.y + this.length);
+    ctx.stroke();
+  }
+
+  update() {
+    this.y += this.speed;
+    if (this.y > canvas.height) {
+      this.y = 0;
+    }
+    this.draw();
+  }
+}
+
+// Create a Snowflake class
+class Snowflake {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 3 + 1;
+    this.speed = Math.random() + 0.5;
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  update() {
+    this.y += this.speed;
+    if (this.y > canvas.height) {
+      this.y = 0;
+    }
+    this.draw();
+  }
+}
+
+// Create a loop to update the droplets/snowflakes
+const animate = () => {
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (isRain) {
+    droplets.forEach((droplet) => {
+      droplet.update();
+    });
+  } else {
+    snowflakes.forEach((snowflake) => {
+      snowflake.update();
+    });
+  }
+};
+
+// Create a loop to add new droplets/snowflakes
+const addWeather = () => {
+  setInterval(() => {
+    if (isRain) {
+      droplets.push(new Droplet());
+    } else {
+      snowflakes.push(new Snowflake());
+    }
+    // limit the number of droplets/snowflakes
+    if (droplets.length > 100) {
+      droplets.shift();
+    }
+    if (snowflakes.length > 100) {
+      snowflakes.shift();
+    }
+  }, 50);
+};
+
+// Add event listener for the toggle button
+const toggleBtn = document.getElementById("toggle-weather");
+toggleBtn.addEventListener("click", () => {
+  isRain = !isRain;
+  canvas.classList.toggle("rain");
+  canvas.classList.toggle("snow");
+});
+
+// Initialize the animation and add weather
+addWeather();
+animate();
+
+
+</script>
+</html>
