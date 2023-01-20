@@ -1,0 +1,26 @@
+#weather {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-color: black;
+    z-index : -100;
+  }
+
+  메일qorf
+  
+  .btn {
+    top:1em;
+    bottom:1em;
+    left:1em;
+    right:1em;
+
+    z-index : 2;
+    background-color: #2288cc;
+  }
+
+  
+  
+
