@@ -21,3 +21,9 @@ app.get('/rainsnow',function( request , response ){
   
   });
   
+
+  app.get('/',function( request , response ){
+
+    response.render( 'rainsnow.html' );
+  
+  });
