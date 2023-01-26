@@ -27,6 +27,8 @@ class weatherEffect {
     this.wind = 0;
     this.power = 50;
     this.weatherID = 0;
+    this.backgroundImage = 0;
+    this.backgroundImageLoaded = 0;
     
     // Set canvas size to be the size of the window
     this.canvas.width = window.innerWidth;
@@ -49,11 +51,11 @@ class weatherEffect {
     this.addWeather();
     this.animate();
 
-    var img = new Image();
-    img.src = 'public/images/apocalypse.jpg';
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = 'public/images/blackcity.jpg';
 
-    img.onload = () => {
-      this.ctx.drawImage(img,0,0);
+    this.backgroundImage.onload = () => {
+      this.backgroundImageLoaded = 1;
     }
   
   }
@@ -62,6 +64,11 @@ class weatherEffect {
   animate = () => {
     requestAnimationFrame(this.animate);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+     if(this.backgroundImageLoaded == 1){
+       this.ctx.drawImage(this.backgroundImage,0,0,this.canvas.width, this.canvas.height);
+    // console.log('test');
+     }
+    
 
     
     this.wind += (Math.random())-0.5;
@@ -178,7 +185,8 @@ class Droplet extends precipitation {
 
   draw() {
     const ctx = this.ctx;
-    ctx.strokeStyle = "white"
+    //ctx.strokeStyle = "white"
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
     ctx.beginPath();
     ctx.moveTo(this.oldx, this.oldy);
     ctx.lineTo(this.x, this.y + this.length);
@@ -206,7 +214,7 @@ class Snowflake extends precipitation {
   draw() {
 
     const ctx = this.ctx;
-    ctx.fillStyle = "white";
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
     ctx.fill();
