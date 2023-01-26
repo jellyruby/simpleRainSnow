@@ -64,9 +64,9 @@ class weatherEffect {
   animate = () => {
     requestAnimationFrame(this.animate);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
      if(this.backgroundImageLoaded == 1){
        this.ctx.drawImage(this.backgroundImage,0,0,this.canvas.width, this.canvas.height);
-    // console.log('test');
      }
     
 
@@ -85,8 +85,13 @@ class weatherEffect {
         droplet.update(this.wind);
       });
     } else {
-      
       this.snowflakes.forEach((snowflake) => {
+
+        if(!snowflake.collided) {
+          this.checkCollision(snowflake);
+          snowflake.collided = true;
+        }
+
         snowflake.update(this.wind);
       });
 
@@ -129,6 +134,24 @@ addWeather = () => {
   }, this.power);
 };
 
+  checkCollision = (snowflake) =>{
+
+    const snowflakes = this.snowflakes;
+    for (var i = 0; i < snowflakes.length; i++) {
+      // check if the current snowflake is the same as the one passed in
+      if (snowflakes[i] === snowflake) {
+        continue;
+      }
+      // check if the current snowflake is in the same x position as the one passed in
+      if (snowflakes[i].x === snowflake.x) {
+        // adjust the y position of the snowflake so that it stacks on top of the other snowflake
+        snowflake.y = snowflakes[i].y - snowflake.size;
+        break;
+      }
+  }
+
+  }
+
 }
 
 
@@ -143,6 +166,7 @@ class precipitation {
 
     this.canvas = canvas;
     this.ctx = ctx;
+    this.collided = true;
 
   }
 
@@ -150,14 +174,16 @@ class precipitation {
     
   }
 
+
   update(wind) {
 
     const canvas  = this.canvas;
 
     this.y += this.speed;
     if (this.y > canvas.height) {
-      delete this;
+      this.groundfall();
     }
+
     this.x += (wind * this.weight);
     if (this.x > canvas.width ) {
       this.oldx = 0;
@@ -183,10 +209,15 @@ class Droplet extends precipitation {
     this.setOldXY();
   }
 
+  groundfall(){
+    delete this;    
+  }
+
+
   draw() {
     const ctx = this.ctx;
     //ctx.strokeStyle = "white"
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
     ctx.beginPath();
     ctx.moveTo(this.oldx, this.oldy);
     ctx.lineTo(this.x, this.y + this.length);
@@ -210,6 +241,13 @@ class Snowflake extends precipitation {
     this.speed = Math.random() + 0.5;
     this.weight = Math.random()*0.1 + 0.5;
   }
+
+  groundfall(){
+    this.y = 0;
+    this.collided = true;
+  }
+
+
 
   draw() {
 
