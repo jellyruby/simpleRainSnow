@@ -24,30 +24,32 @@ class weatherEffect {
     this.isRain = true;
     this.droplets = [];
     this.snowflakes = [];
+    this.snowflakeTop = window.innerHeight;
+    this.snowflakesOnGround = [];
     this.wind = 0;
     this.power = 50;
     this.weatherID = 0;
     this.backgroundImage = 0;
     this.backgroundImageLoaded = 0;
     
+    
     // Set canvas size to be the size of the window
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    this.ResizeWindow();
 
     const toggleBtn = document.getElementById("toggle-weather");
     const rainShaftBtn = document.getElementById("rainShaft");
     const normalBtn = document.getElementById("normal");
 
-    toggleBtn.addEventListener("click", () => {
-      this.isRain = !this.isRain;
-      this.canvas.classList.toggle("rain");
-      this.canvas.classList.toggle("snow");
-    });
 
-    rainShaftBtn.addEventListener("click", () => this.rainShaft());
+    // eventListener part start
+
+    window.addEventListener('resize', () => this.ResizeWindow())
     normal.addEventListener("click", () => this.normal());
-
-
+    toggleBtn.addEventListener("click", () => this.toggleWeather());
+    rainShaftBtn.addEventListener("click", () => this.rainShaft());
+    
+    // eventListener part end
+    
     this.addWeather();
     this.animate();
 
@@ -86,78 +88,68 @@ class weatherEffect {
       });
     } else {
       this.snowflakes.forEach((snowflake) => {
-
-        if(!snowflake.collided) {
-          this.checkCollision(snowflake);
-          snowflake.collided = true;
-        }
-
         snowflake.update(this.wind);
       });
 
     }
   };
 
+  ResizeWindow = () =>{
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+
   rainShaft = () => {
     
     this.power=10;
     clearInterval(this.weatherID);
-
     this.addWeather();
+
   };
   
   normal = () => {
     
     this.power=50;
     clearInterval(this.weatherID);
-
     this.addWeather();
+
   };
+
+  toggleWeather = () =>{
+
+    this.isRain = !this.isRain;
+    this.canvas.classList.toggle("rain");
+    this.canvas.classList.toggle("snow");
+
+  }
   
   
 
-// Create a loop to add new droplets/snowflakes
-addWeather = () => {
-  this.weatherID = setInterval(() => {
-    if (this.isRain) {
-      this.droplets.push(new Droplet(this.canvas, this.ctx));
-    } else {
-      this.snowflakes.push(new Snowflake(this.canvas, this.ctx));
-    }
-    // limit the number of droplets/snowflakes
-    if (this.droplets.length > 10000) {
-      this.droplets.shift();
-    }
-    if (this.snowflakes.length > 10000) {
-      this.snowflakes.shift();
-    }
-  }, this.power);
-};
-
-  checkCollision = (snowflake) =>{
-
-    const snowflakes = this.snowflakes;
-    for (var i = 0; i < snowflakes.length; i++) {
-      // check if the current snowflake is the same as the one passed in
-      if (snowflakes[i] === snowflake) {
-        continue;
+  // Create a loop to add new droplets/snowflakes
+  addWeather = () => {
+    this.weatherID = setInterval(() => {
+      if (this.isRain) {
+        this.droplets.push(new Droplet(this.canvas, this.ctx,this));
+      } else {
+        this.snowflakes.push(new Snowflake(this.canvas, this.ctx,this));
       }
-      // check if the current snowflake is in the same x position as the one passed in
-      if (snowflakes[i].x === snowflake.x) {
-        // adjust the y position of the snowflake so that it stacks on top of the other snowflake
-        snowflake.y = snowflakes[i].y - snowflake.size;
-        break;
+      // limit the number of droplets/snowflakes
+      if (this.droplets.length > 10000) {
+        this.droplets.shift();
       }
-  }
+      if (this.snowflakes.length > 10000) {
+        this.snowflakes.shift();
+      }
+    }, this.power);
+  };
 
-  }
 
 }
 
 
 // 하늘에서 떨어지는 강수에 대한 정의
 class precipitation {
-  constructor(canvas,ctx) {
+  constructor(canvas,ctx,weatherEffectObj) {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height/8;
     
@@ -166,24 +158,35 @@ class precipitation {
 
     this.canvas = canvas;
     this.ctx = ctx;
-    this.collided = true;
+    this.collided = false;
+    this.weatherEffectObj = weatherEffectObj;
 
   }
 
-  draw(){
-    
-  }
+  checkCollision = (snowflake) =>{
 
+    const snowflakes = this.weatherEffectObj.snowflakesOnGround;
+    for (let i = 0; i < snowflakes.length; i++) {
+      // check if the current snowflake is the same as the one passed in
+      if (snowflakes[i] === snowflake) {
+        continue;
+      }
+      // check if the current snowflake is in the same x position as the one passed in
+      var distance = Math.sqrt(Math.pow(snowflake.x - (snowflakes[i].x), 2) + Math.pow(snowflake.y - snowflakes[i].y, 2));
+      if (distance < snowflake.size + (snowflakes[i].size) ) {
+        snowflake.y = snowflakes[i].y - ((snowflake.size + snowflakes[i].size)/8);
+      }
 
-  update(wind) {
+      if(this.weatherEffectObj.snowflakeTop > snowflake.y ){
+        this.weatherEffectObj.snowflakeTop = snowflake.y;
+      }
 
-    const canvas  = this.canvas;
-
-    this.y += this.speed;
-    if (this.y > canvas.height) {
-      this.groundfall();
     }
 
+  }
+
+  MoveWindEffect = (wind) =>{
+    const canvas  = this.canvas;
     this.x += (wind * this.weight);
     if (this.x > canvas.width ) {
       this.oldx = 0;
@@ -193,8 +196,26 @@ class precipitation {
     if (this.x < 0 ) {
       this.oldx = canvas.width;
       this.x = canvas.width;
-    }
     
+  }
+
+  }
+
+  update = (wind) => {
+
+    if(!this.collided){
+
+      const canvas  = this.canvas;
+      this.y += this.speed;
+
+      if (this.y > canvas.height ) {
+        this.groundfall(canvas);
+        this.weight = 0.005;  //바람의 영향을 거의 안받도록 조정
+      }
+
+    }
+
+    this.MoveWindEffect(wind);
     this.draw();
   }
 
@@ -202,8 +223,8 @@ class precipitation {
 
 // Create a Droplet class
 class Droplet extends precipitation {
-  constructor(canvas,ctx) {
-    super(canvas,ctx);
+  constructor(canvas,ctx,weatherEffectObj) {
+    super(canvas,ctx,weatherEffectObj);
     this.length = Math.random() * 8 + 5;
 
     this.setOldXY();
@@ -235,16 +256,22 @@ class Droplet extends precipitation {
 
 // Create a Snowflake class
 class Snowflake extends precipitation {
-  constructor(canvas,ctx) {
-    super(canvas,ctx);
+  constructor(canvas,ctx,weatherEffectObj) {
+    super(canvas,ctx,weatherEffectObj);
     this.size = Math.random() * 3 + 1;
     this.speed = Math.random() + 0.5;
     this.weight = Math.random()*0.1 + 0.5;
+    
   }
 
-  groundfall(){
-    this.y = 0;
+  groundfall(canvas){
+
+
+    this.y = canvas.height;
     this.collided = true;
+    this.weatherEffectObj.snowflakesOnGround.push(this);
+    this.checkCollision(this,this.weatherEffectObj);
+
   }
 
 
@@ -252,7 +279,7 @@ class Snowflake extends precipitation {
   draw() {
 
     const ctx = this.ctx;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
     ctx.fill();
