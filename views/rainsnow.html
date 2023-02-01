@@ -210,7 +210,7 @@ class precipitation {
 
       if (this.y > canvas.height ) {
         this.groundfall(canvas);
-        this.weight = 0.005;  //바람의 영향을 거의 안받도록 조정
+        this.weight = 0.001;  //바람의 영향을 거의 안받도록 조정
       }
 
     }
@@ -265,7 +265,6 @@ class Snowflake extends precipitation {
   }
 
   groundfall(canvas){
-
 
     this.y = canvas.height;
     this.collided = true;
