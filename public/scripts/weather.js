@@ -109,8 +109,10 @@ export default class weatherEffect {
   *toggleWeather() {
 
     while(1){
+        document.getElementById("toggle-weather").innerText = '누르면 비가 와요';
         this.preciptaionType = Snowflake;
         yield ;
+        document.getElementById("toggle-weather").innerText = '누르면 눈이 와요';
         this.preciptaionType = Droplet;
         yield ;
     }

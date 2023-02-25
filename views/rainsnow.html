@@ -3,27 +3,14 @@
         <title>
             간단한 비랑 눈
         </title>
-        <link rel="stylesheet" type="text/css" href="/public/rainsnow.css" >
-        <scrip src="/public/scripts/weather.js">
+        <link rel="stylesheet" type="text/css" href="/public/css/rainsnow.css">
+        <script src="/public/scripts/rainsnow.js" type="module"></script>
     </head>    
-<body>
-    <canvas id="weather" class="rain"></canvas>
-    <button id="toggle-weather" class="btn">Toggle Weather</button>
-    <button id="rainShaft" class="btn">rainShaft!</button>
-    <button id="normal" class="btn">normal</button>
-    <button id="reset" class="btn">reset</button>
-</body>
-<script  type="module">
-
-new weatherEffect();
-import weatherEffect from '/public/scripts/weather.js'
-
-document.addEventListener("DOMContentLoaded", function(){
-
-  new weatherEffect();
-
-});
-
-
-</script>
+    <body>
+        <canvas id="weather" class="rain"></canvas>
+        <button id="toggle-weather" class="btn">누르면 눈이 와요</button>
+        <button id="rainShaft" class="btn">펑펑 와요!</button>
+        <button id="normal" class="btn">평범하게 와요!</button>
+        <button id="reset" class="btn">사라져라 뿅!</button>
+    </body>
 </html>
