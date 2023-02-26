@@ -1,3 +1,4 @@
+"use strict";
 import precipitation from './precipitation.js';
 import droplet from './droplet.js';
 

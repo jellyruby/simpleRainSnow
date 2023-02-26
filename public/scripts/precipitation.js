@@ -1,7 +1,10 @@
+"use strict";
 import Droplet from "./droplet.js";
 
 // 하늘에서 떨어지는 강수에 대한 정의
 export default class precipitation {
+
+
     constructor(canvas,ctx,weatherEffectObj) {
       this.x = Math.random() * canvas.width;
       this.y = Math.random() * canvas.height/8;
@@ -13,9 +16,17 @@ export default class precipitation {
       this.ctx = ctx;
       this.collided = false;
       this.weatherEffectObj = weatherEffectObj;
-  
     }
     
+      _deleted;
+    get deleted() {
+      return this._deleted;
+    }
+    set deleted(value) {
+      if(value !== true) return;
+      this._deleted = value;
+    }
+
     setXY = (x,y)=> {
 
         this.oldx = x;
@@ -63,8 +74,12 @@ export default class precipitation {
   
     }
   
+
+
     update = (wind) => {
   
+      if(this.deleted == true) return;
+
       if(!this.collided){
   
         const canvas  = this.canvas;
@@ -79,8 +94,6 @@ export default class precipitation {
   
       this.MoveWindEffect(wind);
       this.draw();
-      
-      
 
     }
   

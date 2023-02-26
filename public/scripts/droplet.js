@@ -12,7 +12,8 @@ export default class Droplet extends precipitation {
   }
 
   groundfall(){
-    delete this;    
+    // delete this;    
+    this.deleted = true;
   }
 
 
