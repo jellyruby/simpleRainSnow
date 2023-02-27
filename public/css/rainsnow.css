@@ -7,20 +7,22 @@
 
 :root {
 font-size: 14px;
---color-text: #f0f0f0EE;
+//--color-text: #f0f0f0EE;
+--color-text: #FF00FFDD;
 --color-bg: #000;
---color-bg-hover: #f0f0f022;
+--color-bg-hover: #FF00FF66;
 --color-link: #000;
 --color-link-hover: #131313;
 --padding-sides: 2rem;
 --padding-row: 1rem;
---color-row-border: #f0f0f0;
+--color-row-border: #FF00FFDD;
 --color-bg-row-hover: #f0f0f0;
 --color-text-alt: #000;
 --image-gap: 1vw;
 --image-gap-large: 2vw;
 --img-size: 5vw;
 --img-size-large: 14vw;
+--text-size-small: 1vw;
 --text-size: 15vw;
 --text-size-large: 30vw;
 --detail-size: 45vw;
@@ -52,7 +54,7 @@ section, summary, time, mark, audio, video {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    background-color: black;
+    background-color: var(--color-bg);
     z-index : -100;
   }
 
@@ -65,7 +67,7 @@ section, summary, time, mark, audio, video {
     right:1em;
     z-index : 1;
     border-top: 1px solid;
-    border-color:#eeeeee;
+    border-color:var(--color-row-border);
     color:var(--color-text);
     background-color: 00000000;
   }
@@ -76,3 +78,41 @@ section, summary, time, mark, audio, video {
   }
   
 
+
+.power {
+  margin-left:1em;
+  margin-top:2em;
+  margin-bottom:0.1em;
+  padding:0.5em;
+  width:2em;
+  color:var(--color-text-);
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color:var(--color-row-border);
+}
+
+.power-bar {
+  position: relative;
+  background-color:var(--color-bg-hover);
+  width:1em;
+  height:10em;
+  border-radius:0.5em;
+  
+}
+
+.power-level {
+  position: relative;
+  background-color:var(--color-bg-hover);
+  width:1em;
+  height:1em;
+  border-radius:1em;
+
+}
+
+.power-text {
+  position:absolute;
+  left:1.5em;
+  width:1em;
+  color:var(--color-text);
+  font-size:var(--text-size-small);
+}

@@ -1,6 +1,7 @@
 'use strict'
 import Droplet from './droplet.js';
 import Snowflake from './snowflake.js';
+import weatherEvent from './weatherEvent.js';
 
 
 
@@ -18,19 +19,20 @@ export default class weatherEffect {
     this.precipitation = [];
     this.snowflakesOnGround = [];
     this.wind = 0;
-    this.power = 50;
+    this.power = 100;
     this.weatherID = 0;
     this.backgroundImage = 0;
     this.backgroundImageLoaded = 0;
     
+    new weatherEvent(this);
+
     //날씨 강도를 설정한다.
-    const weatherPowerDefinition = {
+    this.weatherPowerDefinition = {
         strong: 10,
         normal: 50,
         weak: 100
     }
 
-    
     // 캔버스 크기를 설정한다.
     this.ResizeWindow();
 
@@ -38,15 +40,17 @@ export default class weatherEffect {
     const rainShaftBtn = document.getElementById("rainShaft");
     const normalBtn = document.getElementById("normal");
     const resetBtn = document.getElementById("reset");
+    
 
 
 
     // 이벤트리스너 part start
     window.addEventListener('resize', () => this.ResizeWindow());
     toggleBtn.addEventListener("click", () => this.toggleWeatherToken.next());
-    normalBtn.addEventListener("click", () => this.resetWeatherPower(weatherPowerDefinition.normal));
-    rainShaftBtn.addEventListener("click", () => this.resetWeatherPower(weatherPowerDefinition.strong));
+    // normalBtn.addEventListener("click", () => this.resetWeatherPower(weatherPowerDefinition.normal));
+    // rainShaftBtn.addEventListener("click", () => this.resetWeatherPower(weatherPowerDefinition.strong));
     resetBtn.addEventListener("click", () => this.precipitation = []);
+    
     // 이벤트리스너 part end
     
     this.setWeather();
@@ -104,6 +108,7 @@ export default class weatherEffect {
 
     this.power=power;
     this.resetWeather();
+
   };
 
 
@@ -111,10 +116,10 @@ export default class weatherEffect {
   *toggleWeather() {
 
     while(1){
-        document.getElementById("toggle-weather").innerText = '누르면 비가 와요';
+        document.getElementById("toggle-weather").innerText = 'CHANGE RAIN';
         this.preciptaionType = Snowflake;
         yield ;
-        document.getElementById("toggle-weather").innerText = '누르면 눈이 와요';
+        document.getElementById("toggle-weather").innerText = 'CHANGE SNOW';
         this.preciptaionType = Droplet;
         yield ;
     }

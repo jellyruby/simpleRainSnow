@@ -19,7 +19,7 @@ export default class Droplet extends precipitation {
 
   draw() {
     const ctx = this.ctx;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.strokeStyle = 'rgba(0, 255, 255, 0.9)';
     ctx.beginPath();
     ctx.moveTo(this.oldx, this.oldy);
     ctx.lineTo(this.x, this.y + this.length);
