@@ -8,14 +8,14 @@
 :root {
 font-size: 14px;
 //--color-text: #f0f0f0EE;
---color-text: #FF00FFDD;
+--color-text: #f0f0f0EE;
 --color-bg: #000;
---color-bg-hover: #FF00FF66;
+--color-bg-hover: #f0f0f044;
 --color-link: #000;
 --color-link-hover: #131313;
 --padding-sides: 2rem;
 --padding-row: 1rem;
---color-row-border: #FF00FFDD;
+--color-row-border: #f0f0f044;
 --color-bg-row-hover: #f0f0f0;
 --color-text-alt: #000;
 --image-gap: 1vw;
@@ -23,6 +23,7 @@ font-size: 14px;
 --img-size: 5vw;
 --img-size-large: 14vw;
 --text-size-small: 1vw;
+--text-size-middle: 3vw;
 --text-size: 15vw;
 --text-size-large: 30vw;
 --detail-size: 45vw;
@@ -47,17 +48,34 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;}
 
+body {
+  overflow-x: hidden;
+  font-size: clamp(1rem,4vw,1.3rem);
+
+}
+
 #weather {
     position: absolute;
-    top: 0px;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top:0px;
+    bottom:0px;
+    
+    min-height: 100%;
     pointer-events: none;
     background-color: var(--color-bg);
     z-index : -100;
   }
 
+  .main { 
+    padding: 0px;
+  }
+  
+  .content {
+    position: relative;
+    height: 30vh;
+    border-top: 1px solid;
+    border-color:var(--color-row-border);
+    
+  }
   
   .btn {
     position: relative;
@@ -69,25 +87,30 @@ section, summary, time, mark, audio, video {
     border-top: 1px solid;
     border-color:var(--color-row-border);
     color:var(--color-text);
+    font-size:var(--text-size-small);
     background-color: 00000000;
   }
 
   .btn:hover {
     background-color:var(--color-bg-hover) !important; 
-    
   }
   
 
 
 .power {
+  font-size:var(--text-size-small);
+  top:1em;
+  bottom:1em;
+  left:1em;
+  right:1em;
   margin-left:1em;
   margin-top:2em;
   margin-bottom:0.1em;
   padding:0.5em;
   width:2em;
-  color:var(--color-text-);
+  color:var(--color-text);
   border-top: 1px solid;
-  border-bottom: 1px solid;
+  
   border-color:var(--color-row-border);
 }
 

@@ -19,7 +19,8 @@ export default class weatherEffect {
     this.precipitation = [];
     this.snowflakesOnGround = [];
     this.wind = 0;
-    this.power = 100;
+    this.adjWind = 0;
+    this.power = 1000;
     this.weatherID = 0;
     this.backgroundImage = 0;
     this.backgroundImageLoaded = 0;
@@ -28,9 +29,9 @@ export default class weatherEffect {
 
     //날씨 강도를 설정한다.
     this.weatherPowerDefinition = {
-        strong: 10,
-        normal: 50,
-        weak: 100
+        strong: 30,
+        normal: 100,
+        weak: 1000
     }
 
     // 캔버스 크기를 설정한다.
@@ -87,7 +88,10 @@ export default class weatherEffect {
         if(!(precipitation instanceof this.preciptaionType)){
             this.precipitation[index] = new this.preciptaionType(precipitation.canvas, precipitation.ctx,this).setXY(precipitation.x,precipitation.y);
         }
-        this.precipitation[index].update(this.wind) 
+        
+        this.precipitation[index].update(this.wind+ this.adjWind);
+        
+        
     });
 
   };
@@ -99,7 +103,8 @@ export default class weatherEffect {
   //윈도우 크기가 바뀔때 재설정된다.
   ResizeWindow = () =>{
     this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    this.canvas.height = document.getElementById('main').clientHeight; 
+    
   }
 
 

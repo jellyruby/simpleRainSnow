@@ -1,22 +1,65 @@
 export default class weatherTouchEvent{
 
+    powerLevelText = {
+        strong: '강',
+        normal: '중',
+        weak: '약'
+    }
+
     constructor(weather){
 
         this.weather = weather;        
         this.powerClick = false;
+        this.moveClick = false;
         this.level = 1;
         const $powerBtn = document.getElementById("power-btn");
-        const $power = document.getElementsByClassName("power")[0];
+        
         
         this.$powerBtn = $powerBtn;
 
-        $powerBtn.addEventListener('mousedown',(e)=>{
+        $powerBtn.addEventListener('mousedown', (e)=>{
             this.prevY  = e.clientY;
             this.powerClick = true;
-        })
-        document.addEventListener('mousemove',(e)=>{this.getPowerBtnRelativeY(e)})
-        document.addEventListener('mouseup',(e)=>{this.powerClick = false;})
+            this.moveClick = false;
+            
+        });
 
+        document.addEventListener('mousedown', (e)=>{
+            this.prevY  = e.clientY;
+            this.prevX  = e.clientX;
+            this.moveClick = true;
+            this.windDecrease();
+        });
+        
+
+        document.addEventListener('mousemove', (e)=>{this.getPowerBtnRelativeY(e)});
+        document.addEventListener('mousemove', (e)=>{
+
+            if(this.moveClick == false) return;
+            if(this.powerClick == true) return;
+            
+
+            const adjWind = (e.clientX-this.prevX)/100 * Math.abs((e.clientX-this.prevX)/100) ;
+
+            if(Math.abs(adjWind) > 30) return;
+
+            this.weather.adjWind = adjWind;
+            
+        });
+        
+        document.addEventListener('mouseup', (e)=>{
+            this.powerClick = false;
+            this.moveClick = false;
+            this.weather.adjWind = 0;
+        });
+
+    }
+
+    windDecrease = () =>{
+        if(this.moveClick == true && Math.abs(this.weather.wind) > 1){
+            this.weather.wind  = this.weather.wind * 0.99;
+            requestAnimationFrame(this.windDecrease);
+        }
     }
 
     getPowerBtnRelativeY = (e) => {
@@ -52,11 +95,6 @@ export default class weatherTouchEvent{
         
     }    
 
-    powerLevelText = {
-        strong: '강',
-        normal: '중',
-        weak: '약'
-    }
 
     powerChange  =  (level) =>{
 
