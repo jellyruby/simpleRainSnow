@@ -78,6 +78,10 @@ body {
 
   }
   
+  .content:hover {
+    background: linear-gradient(to right, var(--color-bg),var(--color-bg-hover));
+  }
+
   .btn {
     position: relative;
     top:1em;
@@ -142,7 +146,3 @@ body {
 }
 
 
-.content:hover {
-  background: linear-gradient(to right, var(--color-bg),var(--color-bg-hover));
-
-}
