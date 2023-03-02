@@ -75,11 +75,21 @@ body {
     height: 30vh;
     border-top: 1px solid;
     border-color:var(--color-row-border);
+    background-size: 0% 100%;
 
   }
   
-  .content:hover {
-    background: linear-gradient(to right, var(--color-bg),var(--color-bg-hover));
+  .content:hover { 
+    //background: linear-gradient(to right, var(--color-bg),var(--color-bg-hover));
+    background-color:var(--color-bg);
+    animation: gradient-fill 1s forwards;
+  }
+
+  @keyframes gradient-fill {
+    to {
+      background-size: 100% 100%;
+      background: linear-gradient(to right, var(--color-bg),var(--color-bg-hover));
+    }
   }
 
   .btn {
