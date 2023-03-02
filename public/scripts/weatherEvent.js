@@ -18,7 +18,7 @@ export default class weatherTouchEvent{
         this.$powerBtn = $powerBtn;
 
         $powerBtn.addEventListener('mousedown', (e)=>{
-            this.prevY  = e.clientY;
+            this.prevX  = e.clientX;
             this.powerClick = true;
             this.moveClick = false;
             
@@ -70,28 +70,28 @@ export default class weatherTouchEvent{
         const bar = document.getElementsByClassName('power-bar')[0].getBoundingClientRect();
         const level = document.getElementsByClassName('power-level')[0].getBoundingClientRect();
 
-        const posY = this.prevY - e.clientY; 
+        const posX = this.prevX - e.clientX; 
         
         
-        if(bar.bottom < (level.bottom - posY) || bar.top > (level.top - posY)){     
+        if(bar.right < (level.right - posX) || bar.left > (level.left - posX)){     
             return;
         }
 
 
-        const indexY = bar.bottom -level.bottom;
-        const indexYTop = bar.bottom - bar.top - level.height;
+        const indexX = bar.right -level.right;
+        const indexXTop = bar.right - bar.left - level.height;
                 
         //강
-        if(indexYTop/3 > indexY){
+        if(indexXTop/3 > indexX){
             this.powerChange('strong');
-        }else if(indexYTop/3*2 < indexY){
+        }else if(indexXTop/3*2 < indexX){
             this.powerChange('weak');
         }else{
             this.powerChange('normal');
         }
 
-        this.$powerBtn.style.top = (this.$powerBtn.offsetTop - posY) + "px";
-        this.prevY = e.clientY;
+        this.$powerBtn.style.left = (this.$powerBtn.offsetLeft - posX) + "px";
+        this.prevX = e.clientX;
         
     }    
 

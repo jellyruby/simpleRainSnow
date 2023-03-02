@@ -9,6 +9,7 @@
 font-size: 14px;
 //--color-text: #f0f0f0EE;
 --color-text: #f0f0f0EE;
+--color-zero: #00000000;
 --color-bg: #000;
 --color-bg-hover: #f0f0f044;
 --color-link: #000;
@@ -70,34 +71,27 @@ body {
   }
   
   .content {
-    z-index : 1;
+    clear: both;
+    z-index: 1;
     position: relative;
     height: 30vh;
     border-top: 1px solid;
-    border-color:var(--color-row-border);
+    border-color: var(--color-row-border);
+    background: linear-gradient(to right, var(--color-zero), var(--color-bg-hover));
     background-size: 0% 100%;
-
+    background-repeat:no-repeat;
+    transition: background-size 1s ease-out;
+    
   }
   
-  .content:hover { 
-    //background: linear-gradient(to right, var(--color-bg),var(--color-bg-hover));
-    background-color:var(--color-bg);
-    animation: gradient-fill 1s forwards;
+  .content:hover {
+    background-size: 100% 100%;
   }
-
-  @keyframes gradient-fill {
-    to {
-      background-size: 100% 100%;
-      background: linear-gradient(to right, var(--color-bg),var(--color-bg-hover));
-    }
-  }
-
   .btn {
     position: relative;
-    top:1em;
-    bottom:1em;
-    left:1em;
-    right:1em;
+    float : left;
+    margin:1em;
+    margin-right:0em;
     z-index : 1;
     border-top: 1px solid;
     border-color:var(--color-row-border);
@@ -113,16 +107,14 @@ body {
 
 
 .power {
+  position : relative;
+  float:left;
   font-size:var(--text-size-small);
-  top:1em;
-  bottom:1em;
-  left:1em;
-  right:1em;
   margin-left:1em;
-  margin-top:2em;
-  margin-bottom:0.1em;
+  margin-top:1em;
+  margin-bottom:2.5em;
   padding:0.5em;
-  width:2em;
+  width:10em;
   color:var(--color-text);
   border-top: 1px solid;
   
@@ -132,8 +124,8 @@ body {
 .power-bar {
   position: relative;
   background-color:var(--color-bg-hover);
-  width:1em;
-  height:10em;
+  width:10em;
+  height:1em;
   border-radius:0.5em;
   
 }
@@ -149,7 +141,7 @@ body {
 
 .power-text {
   position:absolute;
-  left:1.5em;
+  top:1.5em;
   width:1em;
   color:var(--color-text);
   font-size:var(--text-size-small);
