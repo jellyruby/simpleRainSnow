@@ -84,8 +84,29 @@ body {
     
   }
   
+
+
   .content:hover {
     background-size: 100% 100%;
+  }
+
+
+  .page-text {
+    
+  
+    font-size: 20vh;
+    position:relative;
+    color:var(--color-zero);
+    text-align:right;
+
+  }
+
+  .content:hover .page-text{
+
+    transition: color 1s ease-out;
+    transition-delay: 1s;
+    transition-property: color;
+    color:var(--color-bg-hover);
   }
   .btn {
     position: relative;
