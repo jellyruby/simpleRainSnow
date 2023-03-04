@@ -19,7 +19,7 @@ export default class weatherTouchEvent{
 
         $powerBtn.addEventListener('mousedown', (e)=>{
             this.prevX  = e.clientX;
-            this.powerClick = true;
+            this.powerClick = !this.powerClick;
             this.moveClick = false;
             
         });

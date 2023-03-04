@@ -103,8 +103,8 @@ body {
 
   .content:hover .page-text{
 
-    transition: color 1s ease-out;
-    transition-delay: 1s;
+    transition: color 0.2s ease-out;
+    transition-delay: 0.8s;
     transition-property: color;
     color:var(--color-bg-hover);
   }
