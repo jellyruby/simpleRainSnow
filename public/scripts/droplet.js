@@ -2,7 +2,7 @@ import precipitation from './precipitation.js';
 
 
 
-// Create a Droplet class
+// 비 1개에 대한 클래스
 export default class Droplet extends precipitation {
   constructor(canvas,ctx,weatherEffectObj) {
     super(canvas,ctx,weatherEffectObj);
