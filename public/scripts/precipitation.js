@@ -1,5 +1,4 @@
 "use strict";
-import Droplet from "./droplet.js";
 
 // 하늘에서 떨어지는 강수에 대한 정의
 export default class precipitation {
@@ -36,6 +35,7 @@ export default class precipitation {
         return this;
     }
   
+    
     checkCollision = (snowflake) =>{
   
       const snowflakes = this.weatherEffectObj.snowflakesOnGround;

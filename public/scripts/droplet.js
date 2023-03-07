@@ -11,12 +11,13 @@ export default class Droplet extends precipitation {
     this.setOldXY();
   }
 
+  // 비가 땅에 닿으면 삭제
   groundfall(){
     // delete this;    
     this.deleted = true;
   }
 
-
+  // 비가 땅에 닿았는지 확인
   draw() {
     const ctx = this.ctx;
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
@@ -28,6 +29,7 @@ export default class Droplet extends precipitation {
     this.setOldXY();
   }
   
+  // 이전 좌표 저장
   setOldXY(){
     this.oldx = this.x;
     this.oldy = this.y;

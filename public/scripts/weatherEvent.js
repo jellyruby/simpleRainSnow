@@ -17,6 +17,7 @@ export default class weatherTouchEvent{
         
         this.$powerBtn = $powerBtn;
 
+        
         $powerBtn.addEventListener('mousedown', (e)=>{
             this.prevX  = e.clientX;
             this.powerClick = !this.powerClick;
@@ -55,6 +56,7 @@ export default class weatherTouchEvent{
 
     }
 
+    //바람 감소
     windDecrease = () =>{
         if(this.moveClick == true && Math.abs(this.weather.wind) > 1){
             this.weather.wind  = this.weather.wind * 0.99;
@@ -62,14 +64,17 @@ export default class weatherTouchEvent{
         }
     }
 
+    //파워 버튼 위치 조정
     getPowerBtnRelativeY = (e) => {
         if (!this.powerClick) {
             return;
         }
         
-        const bar = document.getElementsByClassName('power-bar')[0].getBoundingClientRect();
-        const level = document.getElementsByClassName('power-level')[0].getBoundingClientRect();
+        
+        const bar = document.getElementsByClassName('power-bar')[0].getBoundingClientRect();        
+        const level = document.getElementsByClassName('power-level')[0].getBoundingClientRect();    
 
+        
         const posX = this.prevX - e.clientX; 
         
         
@@ -95,7 +100,7 @@ export default class weatherTouchEvent{
         
     }    
 
-
+    //파워 변경
     powerChange  =  (level) =>{
 
         if(level != this.level){

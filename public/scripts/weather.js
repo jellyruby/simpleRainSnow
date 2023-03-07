@@ -2,12 +2,23 @@
 import Droplet from './droplet.js';
 import Snowflake from './snowflake.js';
 import weatherEvent from './weatherEvent.js';
-
+import wind from './wind.js';
 
 
 export default class weatherEffect {
 
-  maxWind = 20;                                     //최대 바람속도
+  //최대 바람속도
+  maxWind = {
+    lowerWind: -20,
+    upperWind: 20
+  };                                     
+
+  //날씨 강도를 설정한다.
+  weatherPowerDefinition = {
+    strong: 30,
+    normal: 100,
+    weak: 1000
+}
   preciptaionTypeDefinition = [Snowflake,Droplet];
   
   constructor() {
@@ -27,39 +38,26 @@ export default class weatherEffect {
     
     new weatherEvent(this);
 
-    //날씨 강도를 설정한다.
-    this.weatherPowerDefinition = {
-        strong: 30,
-        normal: 100,
-        weak: 1000
-    }
+    
 
     // 캔버스 크기를 설정한다.
     this.ResizeWindow();
 
-    const toggleBtn = document.getElementById("toggle-weather");
-    const rainShaftBtn = document.getElementById("rainShaft");
-    const normalBtn = document.getElementById("normal");
-    const resetBtn = document.getElementById("reset");
     
 
-
-
-    // 이벤트리스너 part start
+    // 버튼 이벤트를 설정한다.
+    const $toggleBtn = document.getElementById("toggle-weather");
+    const $resetBtn = document.getElementById("reset");
+    
     window.addEventListener('resize', () => this.ResizeWindow());
-    toggleBtn.addEventListener("click", () => this.toggleWeatherToken.next());
-    // normalBtn.addEventListener("click", () => this.resetWeatherPower(weatherPowerDefinition.normal));
-    // rainShaftBtn.addEventListener("click", () => this.resetWeatherPower(weatherPowerDefinition.strong));
-    resetBtn.addEventListener("click", () => this.precipitation = []);
+    $toggleBtn.addEventListener("click", () => this.toggleWeatherToken.next());
+    $resetBtn.addEventListener("click", () => this.precipitation = []);
     
-    // 이벤트리스너 part end
+    
     
     this.setWeather();
     this.animate();
-
-    // this.backgroundImage = new Image();
-    // this.backgroundImage.src = 'public/images/blackcity.jpg';
-    // this.backgroundImage.onload = () => this.backgroundImageLoaded = 1;
+    this.loadBackgroundImage('public/images/blackcity.jpg');
     
     //이미 사용된 강수 가비지 컬렉팅
     setInterval(()=>{
@@ -69,19 +67,13 @@ export default class weatherEffect {
 
   // 강수 애니메이션
   animate = () => {
+
     requestAnimationFrame(this.animate);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    //  if(this.backgroundImageLoaded == 1){
-    //     this.ctx.drawImage(this.backgroundImage,0,0,this.canvas.width, this.canvas.height);
-    //  }
+    this.drawBackgroundImage();
 
-    this.wind += (Math.random())-0.5;
-    
-    if(this.wind > 20) this.wind = 20;
-    if(this.wind < -20) this.wind = -20;
-
-
+    this.checkOverMaxWind();
 
     this.changePrecipitaionAll((precipitation,index) => {
         
@@ -116,8 +108,28 @@ export default class weatherEffect {
 
   };
 
+  //배경 이미지를 로딩한다.
+  loadBackgroundImage = (imageUrl) => {
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = imageUrl;
+    this.backgroundImage.onload = () => this.backgroundImageLoaded = 1;
+  }
 
-  //날씨를 변경한다. (무한반복)
+  //배경 이미지를 그린다.
+  drawBackgroundImage = () => {
+    if (this.backgroundImageLoaded) this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
+    
+  }
+
+  //최대 바람속도를 넘지 않게 한다.
+  checkOverMaxWind() {
+    this.wind += (Math.random()) - 0.5;
+    if (this.wind > this.maxWind.upperWind) this.wind = this.maxWind.upperWind;
+    if (this.wind < this.maxWind.lowerWind) this.wind = this.maxWind.lowerWind;
+      
+  }
+
+  //날씨를 변경하는 Generator. 
   *toggleWeather() {
 
     while(1){
