@@ -27,7 +27,7 @@ export default class Snowflake extends precipitation {
     draw() {
   
       const ctx = this.ctx;
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillStyle = this.color;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
       ctx.fill();

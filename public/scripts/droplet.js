@@ -20,7 +20,7 @@ export default class Droplet extends precipitation {
   // 비가 땅에 닿았는지 확인
   draw() {
     const ctx = this.ctx;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.strokeStyle = this.color;
     ctx.beginPath();
     ctx.moveTo(this.oldx, this.oldy);
     ctx.lineTo(this.x, this.y + this.length);

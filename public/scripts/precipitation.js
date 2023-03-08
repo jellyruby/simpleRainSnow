@@ -3,6 +3,7 @@
 // 하늘에서 떨어지는 강수에 대한 정의
 export default class precipitation {
 
+    color = 'rgba(0, 255, 255, 0.9)';
 
     constructor(canvas,ctx,weatherEffectObj) {
       this.x = Math.random() * canvas.width;
